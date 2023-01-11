@@ -96,7 +96,7 @@ for run_idx in tqdm(range(run_count)):
         e = sdne.get_embeddings()
         embed_og = np.array([e[node_name] for node_name in graph.nodes()])
         embed_og = (embed_og - np.min(embed_og)) / np.ptp(embed_og)
-        sdne_time = (time.time() - sden_start) / hyp['sdne']['epochs']
+        sdne_time = (time.time() - sdne_start) / hyp['sdne']['epochs']
 
         # SDNE+XM
         sdne_plus_start = time.time()
