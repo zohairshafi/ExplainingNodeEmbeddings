@@ -140,6 +140,10 @@ for run_idx in tqdm(range(run_count)):
         explain_plus = (explain_plus - np.min(explain_plus)) / np.ptp(explain_plus)
         explain_plus_norm = np.linalg.norm(explain_plus, ord = 'nuc')
 
+        error_og = sense_features * np.log((sense_features + 1e-10) / ((embed_og @ feature_dict_og['explain_norm']) + 1e-10)) - sense_features + (embed_og @ feature_dict_og['explain_norm'])
+        error_plus = sense_features * np.log((sense_features + 1e-10) / ((embed_plus @ feature_dict_plus['explain_norm']) + 1e-10)) - sense_features + (embed_plus @ feature_dict_plus['explain_norm'])
+
+
         # Generate Node Explanations
         Y_og = embed_og
         sense_mat = tf.einsum('ij, ik -> ijk', Y_og, sense_features)
@@ -166,6 +170,8 @@ for run_idx in tqdm(range(run_count)):
             results[d]['explain_plus_norm'].append(explain_plus_norm)
             results[d]['sdne_time'].append(sdne_time)
             results[d]['sdne+xm_time'].append(sdne_plus_time)
+            results[d]['error_og'].append(error_og)
+            results[d]['error_plus'].append(error_plus)
 
             
         except: 
@@ -175,6 +181,8 @@ for run_idx in tqdm(range(run_count)):
             results[d]['explain_plus_norm'] = [explain_plus_norm]
             results[d]['sdne_time'] = [sdne_time]
             results[d]['sdne+xm_time'] = [sdne_plus_time]
+            results[d]['error_og'] = [error_og]
+            results[d]['error_plus'] = [error_plus]
 
             
         results[d]['embed_og'] = embed_og
