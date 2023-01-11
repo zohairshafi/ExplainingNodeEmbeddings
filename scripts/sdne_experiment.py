@@ -9,7 +9,7 @@ ap.add_argument("-o", "--outfile", required = True, help = "File name to save re
 args = vars(ap.parse_args())
 
 filename = args['graph_path']
-run_count = args['run_count']
+run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
 
