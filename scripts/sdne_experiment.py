@@ -61,7 +61,7 @@ if hyp_key == '':
                       'batch_size' : 1024, 
                       'lr' : 5e-4}}
 else: 
-    with open('scripts/hyp.json', 'r') as file: 
+    with open('hyp.json', 'r') as file: 
         hyp_file = json.load(file)
         hyp = hyp_file[hyp_key]
 
