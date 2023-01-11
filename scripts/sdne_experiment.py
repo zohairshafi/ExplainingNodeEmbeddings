@@ -72,8 +72,11 @@ else:
 
 dimensions = [16, 32, 64, 256, 512]
 results = {d : {} for d in dimensions}
+run_time = []
 
 for run_idx in tqdm(range(run_count)):
+
+    run_start = time.time()
     
     for d in dimensions: 
     
@@ -179,3 +182,20 @@ for run_idx in tqdm(range(run_count)):
     
     with open(outfile, 'wb') as file: 
         pkl.dump(results, file)
+
+    run_time.append(time.time() - run_start)
+
+    with open(outfile + '_progress.txt', 'w') as file: 
+        string = 'Current Run : ' + str(run_idx)
+        string += '\nLast Iteration Time : ' + str(run_time[-1]) + 's'
+        string += '\nAverage Iteration Time : ' + str(np.mean(run_time)) + 's'
+        string += '\nEstimated Time Left : ' + np.mean(run_time) * (run_count - run_idx) + 's'
+        file.write(string)
+
+
+
+
+
+
+
+
