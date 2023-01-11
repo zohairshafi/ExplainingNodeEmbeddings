@@ -80,6 +80,7 @@ for run_idx in tqdm(range(run_count)):
         # Embed 
         
         # Standard SDNE
+        sdne_start = time.time()
         sdne = SDNE_plus(graph, 
                           hidden_size = [32, d], 
                           lr = hyp['sdne']['lr'],
@@ -92,8 +93,10 @@ for run_idx in tqdm(range(run_count)):
         e = sdne.get_embeddings()
         embed_og = np.array([e[node_name] for node_name in graph.nodes()])
         embed_og = (embed_og - np.min(embed_og)) / np.ptp(embed_og)
+        sdne_time = (time.time() - sden_start) / hyp['sdne']['epochs']
 
         # SDNE+XM
+        sdne_plus_start = time.time()
         sdne_plus = SDNE_plus(graph, 
                                   hidden_size = [32, d], 
                                   lr = hyp['sdne+xm']['lr'],
@@ -108,6 +111,8 @@ for run_idx in tqdm(range(run_count)):
         e = sdne_plus.get_embeddings()
         embed_plus = np.array([e[node_name] for node_name in graph.nodes()])
         embed_plus = (embed_plus - np.min(embed_plus)) / np.ptp(embed_plus)
+        sdne_plus_time = (time.time() - sdne_plus_start) / hyp['sdne+xm']['epochs']
+
         
         # Generate Graph Explanations and Save
         feature_dict_og = find_feature_membership(input_embed = embed_og,
@@ -156,12 +161,18 @@ for run_idx in tqdm(range(run_count)):
             results[d]['norm_plus'].append(norm_plus)
             results[d]['explain_og_norm'].append(explain_og_norm)
             results[d]['explain_plus_norm'].append(explain_plus_norm)
+            results[d]['sdne_time'].append(sdne_time)
+            results[d]['sdne+xm_time'].append(sdne_plus_time)
+
             
         except: 
             results[d]['norm_og'] = [norm_og]
             results[d]['norm_plus'] = [norm_plus]
             results[d]['explain_og_norm'] = [explain_og_norm]
             results[d]['explain_plus_norm'] = [explain_plus_norm]
+            results[d]['sdne_time'] = [sdne_time]
+            results[d]['sdne+xm_time'] = [sdne_plus_time]
+
             
         results[d]['embed_og'] = embed_og
         results[d]['embed_plus'] = embed_plus
