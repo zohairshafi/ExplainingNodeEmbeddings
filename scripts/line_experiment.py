@@ -108,6 +108,7 @@ for run_idx in tqdm(range(run_count)):
                                                             solver = 'nmf')
 
         explain_og = feature_dict_og['explain_norm']
+        explain_og_norm = np.linalg.norm(explain_og, ord = 'nuc')
         error_og = sense_features * np.log((sense_features + 1e-10) / ((embed_og @ feature_dict_og['explain_norm']) + 1e-10)) - sense_features + (embed_og @ feature_dict_og['explain_norm'])
         explain_og = (explain_og - np.min(explain_og)) / np.ptp(explain_og)
         
@@ -138,6 +139,7 @@ for run_idx in tqdm(range(run_count)):
                                                             solver = 'nmf')
 
         explain_plus = feature_dict_plus['explain_norm']
+        explain_plus_norm = np.linalg.norm(explain_plus, ord = 'nuc')
         error_plus = sense_features * np.log((sense_features + 1e-10) / ((embed_plus @ feature_dict_plus['explain_norm']) + 1e-10)) - sense_features + (embed_plus @ feature_dict_plus['explain_norm'])
         explain_plus = (explain_plus - np.min(explain_plus)) / np.ptp(explain_plus)
 
