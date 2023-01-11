@@ -189,7 +189,7 @@ for run_idx in tqdm(range(run_count)):
         string = 'Current Run : ' + str(run_idx)
         string += '\nLast Iteration Time : ' + str(run_time[-1]) + 's'
         string += '\nAverage Iteration Time : ' + str(np.mean(run_time)) + 's'
-        string += '\nEstimated Time Left : ' + np.mean(run_time) * (run_count - run_idx) + 's'
+        string += '\nEstimated Time Left : ' + str(np.mean(run_time) * (run_count - run_idx)) + 's'
         file.write(string)
 
 
