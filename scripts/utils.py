@@ -1294,7 +1294,7 @@ class BaseEmbedder:
         raise NotImplementedError
 
 class DGIEmbedding(BaseEmbedder):
-    def __init__(self, embed_dim = 64, graph = None, feature_matrix = None, use_xm = False, debug = False, batch_size = 1, nb_epochs = 2500, patience = 20, ortho_ = 0.1, sparse_ = 0.1, lr = 1e-3, l2_coef = 0.0, drop_prob = 0.0, sparse = True, nonlinearity = 'prelu'):
+    def __init__(self, embed_dim = 64, graph = None, feature_matrix = None, use_xm = False, debug = False, batch_size = 1, nb_epochs = 2500, patience = 20, ortho_ = 0.1, sparse_ = 0.1, lr = 1e-3, l2_coef = 0.0, drop_prob = 0.0, sparse = True, nonlinearity = 'prelu', model_name = ''):
 
         self.embed_dim = embed_dim
         self.debug = debug
@@ -1314,7 +1314,8 @@ class DGIEmbedding(BaseEmbedder):
         self.use_xm = use_xm
         self.ortho_ = ortho_
         self.sparse_ = sparse_
-        
+        self.model_name = model_name
+
         self.time_per_epoch = None
         
         if graph is not None:
@@ -1417,7 +1418,7 @@ class DGIEmbedding(BaseEmbedder):
                 best = loss
                 best_t = epoch
                 cnt_wait = 0
-                torch.save(model.state_dict(), 'best_dgi.pkl')
+                torch.save(model.state_dict(), self.model_name + '.pkl')
             else:
                 cnt_wait += 1
 
@@ -1433,7 +1434,7 @@ class DGIEmbedding(BaseEmbedder):
 
         if self.debug: 
             print('Loading {}th epoch'.format(best_t))
-        model.load_state_dict(torch.load('best_dgi.pkl'))
+        model.load_state_dict(torch.load(self.model_name + '.pkl'))
 
         self.node_model = model
         self.fitted = True

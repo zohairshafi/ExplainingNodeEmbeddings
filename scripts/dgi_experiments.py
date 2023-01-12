@@ -16,6 +16,7 @@ run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
 use_id = args['use_id'] == 'True'
+model_name = a.split('/')[-1].strip('.pkl') + '_model'
 
 #################################
 ######### Read In Graph #########
@@ -103,7 +104,8 @@ for run_idx in tqdm(range(run_count)):
                        use_xm = hyp['dgi']['use_xm'], 
                        ortho_ = hyp['dgi']['ortho'], 
                        sparse_ = hyp['dgi']['sparse'], 
-                       batch_size = 1)
+                       batch_size = 1, 
+                       model_name = model_name)
             embed_id = dgi_id.get_embedding()
             embed_id = (embed_id - np.min(embed_id)) / np.ptp(embed_id)
             feature_dict_id = find_feature_membership(input_embed = embed_id,
@@ -124,7 +126,8 @@ for run_idx in tqdm(range(run_count)):
                    use_xm = hyp['dgi']['use_xm'], 
                    ortho_ = hyp['dgi']['ortho'], 
                    sparse_ = hyp['dgi']['sparse'], 
-                   batch_size = 1)
+                   batch_size = 1, 
+                   model_name = model_name)
         embed_og = dgi_og.get_embedding()
         embed_og = (embed_og - np.min(embed_og)) / np.ptp(embed_og)
         feature_dict_og = find_feature_membership(input_embed = embed_og,
@@ -145,7 +148,8 @@ for run_idx in tqdm(range(run_count)):
                    use_xm = hyp['dgi+xm']['use_xm'], 
                    ortho_ = hyp['dgi+xm']['ortho'], 
                    sparse_ = hyp['dgi+xm']['sparse'], 
-                   batch_size = 1)
+                   batch_size = 1, 
+                   model_name = model_name)
         embed_plus = dgi_plus.get_embedding()
         embed_plus = (embed_plus - np.min(embed_plus)) / np.ptp(embed_plus)
         feature_dict_plus = find_feature_membership(input_embed = embed_plus,
