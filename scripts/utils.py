@@ -58,9 +58,11 @@ from tensorflow.keras.layers import Dense, Flatten, Input, Dropout, Concatenate,
 from collections import deque
 
 sys.path.append('../')
+
+import torch
+import torch.nn as nn
 from DGI.models import DGI, LogReg
 from DGI.utils import process
-import torch
 
 
 ###################################
