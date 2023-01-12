@@ -22,7 +22,7 @@ with open(filename, 'rb') as file:
 try:
     graph = nx.Graph(nx.to_numpy_array(graph_dict['graph']))    
 except:
-    graph = nx.Graph(nx.to_numpy_array(graph))
+    graph = nx.Graph(nx.to_numpy_array(graph_dict))
 
 #################################
 #### Generate Sense Features ####
