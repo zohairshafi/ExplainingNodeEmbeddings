@@ -30,6 +30,19 @@
                       "sparse" : 10, 
                       "epochs" : 50, 
                       "batch_size" : 1024, 
+                      "lr" : 5e-4},
+            "dgi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "epochs" : 15, 
+                     "batch_size" : 1024, 
+                     "lr" : 1e-3}, 
+
+            "dgi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "epochs" : 50, 
+                      "batch_size" : 1024, 
                       "lr" : 5e-4}
 
       },
@@ -41,7 +54,7 @@
                   "gamma": 0,
                   "delta": 0,
                   "epochs": 100,
-                  "batch_size": 256,
+                  "batch_size": 128,
                   "lr": 1e-3
             },
             "sdne+xm": {
@@ -50,21 +63,21 @@
                   "gamma": 10,
                   "delta": 100,
                   "epochs": 200,
-                  "batch_size": 256,
+                  "batch_size": 128,
                   "lr": 5e-4
             }, 
             "line" : {"alpha" : 0.1, 
                      "ortho" : 0, 
                      "sparse" : 0, 
                      "epochs" : 5, 
-                     "batch_size" : 256, 
+                     "batch_size" : 128, 
                      "lr" : 1e-3}, 
 
             "line+xm" : {"alpha" : 100, 
                       "ortho" : 10, 
                       "sparse" : 10, 
                       "epochs" : 10, 
-                      "batch_size" : 256, 
+                      "batch_size" : 128, 
                       "lr" : 5e-4}
 
       },
@@ -76,7 +89,7 @@
                   "gamma": 0,
                   "delta": 0,
                   "epochs": 100,
-                  "batch_size": 256,
+                  "batch_size": 128,
                   "lr": 1e-3
             },
             "sdne+xm": {
@@ -85,21 +98,21 @@
                   "gamma": 10,
                   "delta": 100,
                   "epochs": 200,
-                  "batch_size": 256,
+                  "batch_size": 128,
                   "lr": 5e-4
             }, 
             "line" : {"alpha" : 0.1, 
                      "ortho" : 0, 
                      "sparse" : 0, 
                      "epochs" : 5, 
-                     "batch_size" : 256, 
+                     "batch_size" : 128, 
                      "lr" : 1e-3}, 
 
             "line+xm" : {"alpha" : 100, 
                       "ortho" : 10, 
                       "sparse" : 10, 
                       "epochs" : 10, 
-                      "batch_size" : 256, 
+                      "batch_size" : 128, 
                       "lr" : 5e-4}
 
       },
