@@ -19,8 +19,10 @@ outfile = args['outfile']
 with open(filename, 'rb') as file: 
     graph_dict = pkl.load(file)
     
-graph = nx.Graph(nx.to_numpy_array(graph_dict['graph']))    
-graph = nx.Graph(nx.to_numpy_array(graph))
+try:
+    graph = nx.Graph(nx.to_numpy_array(graph_dict['graph']))    
+except:
+    graph = nx.Graph(nx.to_numpy_array(graph))
 
 
 #################################
