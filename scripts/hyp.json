@@ -34,15 +34,11 @@
             "dgi" : {"use_xm" : "False",
                      "ortho" : 0, 
                      "sparse" : 0, 
-                     "epochs" : 15, 
-                     "batch_size" : 1024, 
                      "lr" : 1e-3}, 
 
             "dgi+xm" : {"use_xm" : "True",
-                      "ortho" : 10, 
-                      "sparse" : 10, 
-                      "epochs" : 50, 
-                      "batch_size" : 1024, 
+                      "ortho" : 1, 
+                      "sparse" : 0.1, 
                       "lr" : 5e-4}
 
       },
@@ -96,7 +92,7 @@
                   "alpha": 1,
                   "beta": 10,
                   "gamma": 10,
-                  "delta": 100,
+                  "delta": 10,
                   "epochs": 200,
                   "batch_size": 128,
                   "lr": 5e-4
