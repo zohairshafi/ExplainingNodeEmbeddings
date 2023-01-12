@@ -57,7 +57,14 @@ import keras.backend as K
 from tensorflow.keras.layers import Dense, Flatten, Input, Dropout, Concatenate, Embedding, Lambda, Reshape
 from collections import deque
 
+sys.path.append('../')
+from DGI.models import DGI, LogReg
+from DGI.utils import process
 
+
+###################################
+######## Helper Functions #########
+###################################
 def add_weights(G, weights):
 
     '''
@@ -760,6 +767,11 @@ def create_model_plus(node_size, sense_feat_size, hidden_size = [256, 128], l1 =
     emb = Model(inputs = A, outputs = Y)
     return model, emb
 
+
+###########################################
+######## Embedding Methods - SDNE #########
+###########################################
+
 class SDNE_plus(object):
     def __init__(self, graph, sense_features, lr = 1e-5, hidden_size = [32, 16], alpha = 1e-6, beta = 5., gamma = 0.1, delta = 0.1, nu1 = 1e-5, nu2 = 1e-4):
 
@@ -1014,6 +1026,9 @@ def create_model_line(num_nodes, embedding_size, sense_feat_size, order = 'secon
 
     return model, {'first': first_emb, 'second': second_emb}
 
+###########################################
+######## Embedding Methods - LINE #########
+###########################################
 
 class LINE:
     def __init__(self, graph, sense_features, alpha, ortho, sparse, learning_rate, batch_size, embedding_size = 8, negative_ratio = 5, order = 'second',):
@@ -1256,3 +1271,159 @@ def alias_sample(accept, alias):
         return i
     else:
         return alias[i]
+
+
+###########################################
+######## Embedding Methods - DGI ##########
+###########################################
+
+class BaseEmbedder:
+    def __init__(self, graph, embed_shape = (128,)):
+        self.embed(graph)
+        self.E = list(graph.edges())
+        self.graph = graph
+        self.embed_shape = embed_shape
+    
+    def embed(self, graph):
+        raise NotImplementedError
+    
+    def get_embedding(self):
+        raise NotImplementedError
+
+class DGIEmbedding(BaseEmbedder):
+    def __init__(self, embed_dim = 64, graph = None, feature_matrix = None, use_xm = False, debug = False, batch_size = 1, nb_epochs = 2500, patience = 20, ortho_ = 0.1, sparse_ = 0.1, lr = 1e-3, l2_coef = 0.0, drop_prob = 0.0, sparse = True, nonlinearity = 'prelu'):
+
+        self.embed_dim = embed_dim
+        self.debug = debug
+        
+        # Training Params
+        self.graph = graph
+        self.batch_size = batch_size
+        self.nb_epochs = nb_epochs
+        self.patience = patience
+        self.lr = lr
+        self.l2_coef = l2_coef
+        self.feature_matrix = feature_matrix
+        self.drop_prob = drop_prob
+        self.hid_units = embed_dim
+        self.sparse = sparse
+        self.nonlinearity = nonlinearity
+        self.use_xm = use_xm
+        self.ortho_ = ortho_
+        self.sparse_ = sparse_
+        
+        if graph is not None:
+            self.embed()
+        else:
+            self.graph = None
+    
+    def embed(self):
+
+        
+        if self.feature_matrix is None:
+            feature_matrix = np.identity(len(self.graph))
+        else: 
+            feature_matrix = self.feature_matrix
+
+        adj = nx.to_scipy_sparse_array(self.graph)
+        features = sp.lil_matrix(feature_matrix)
+        features, _ = process.preprocess_features(features)
+
+        nb_nodes = features.shape[0]
+        ft_size = features.shape[1]
+
+        adj = process.normalize_adj(adj + sp.eye(adj.shape[0]))
+
+        if self.sparse:
+            sp_adj = process.sparse_mx_to_torch_sparse_tensor(adj)
+        else:
+            adj = (adj + sp.eye(adj.shape[0])).todense()
+
+        features = torch.FloatTensor(features[np.newaxis])
+        if not self.sparse:
+            adj = torch.FloatTensor(adj[np.newaxis])
+
+        if self.feature_matrix is not None: 
+            sense_features = torch.FloatTensor(self.feature_matrix)
+
+
+        model = DGI(ft_size, self.hid_units, self.nonlinearity)
+        optimiser = torch.optim.Adam(model.parameters(), lr = self.lr, weight_decay = self.l2_coef)
+
+        b_xent = nn.BCEWithLogitsLoss()
+        xent = nn.CrossEntropyLoss()
+        cnt_wait = 0
+        best = 1e9
+        best_t = 0
+
+        for epoch in tqdm(range(self.nb_epochs)):
+            model.train()
+            optimiser.zero_grad()
+
+            idx = np.random.permutation(nb_nodes)
+            shuf_fts = features[:, idx, :]
+
+            lbl_1 = torch.ones(self.batch_size, nb_nodes)
+            lbl_2 = torch.zeros(self.batch_size, nb_nodes)
+            lbl = torch.cat((lbl_1, lbl_2), 1)
+
+            if torch.cuda.is_available():
+                shuf_fts = shuf_fts.cuda()
+                lbl = lbl.cuda()
+
+            logits = model(features, shuf_fts, sp_adj if self.sparse else adj, self.sparse, None, None, None) 
+            
+            if self.use_xm == True and feature_matrix is not None:
+                
+                sf = sense_features
+                embeds, _ = model.embed(sf, sp_adj if self.sparse else adj, self.sparse, None)
+                embeds = torch.squeeze(embeds)
+                sense_mat = torch.einsum('ij, ik -> ijk', embeds, sf)
+                E = sense_mat
+                y_norm = torch.diagonal(torch.matmul(logits, torch.transpose(logits, 0, 1)))
+                sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
+                norm = torch.multiply(y_norm, sense_norm)
+                E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
+                
+                E_t = torch.transpose(E, 1, 2)
+                E_o = torch.einsum('aij, ajh -> aih', E, E_t)
+                E_o = torch.sum(E_o)
+                ortho_loss = (self.ortho_ * E_o) / self.batch_size
+                
+                sparse_loss = (self.sparse_ * torch.sum(torch.linalg.norm(E, ord = 1, axis = 0))) / self.batch_size
+
+            loss = b_xent(logits, lbl) + ortho_loss + sparse_loss
+
+            if self.debug:
+                print('Loss:', loss)
+
+            if loss < best:
+                best = loss
+                best_t = epoch
+                cnt_wait = 0
+                torch.save(model.state_dict(), 'best_dgi.pkl')
+            else:
+                cnt_wait += 1
+
+            if cnt_wait == self.patience:
+                if self.debug: 
+                    print('Early stopping!')
+                break
+
+            loss.backward()
+            optimiser.step()
+
+        if self.debug: 
+            print('Loading {}th epoch'.format(best_t))
+        model.load_state_dict(torch.load('best_dgi.pkl'))
+
+        self.node_model = model
+        self.fitted = True
+
+        embeds, _ = model.embed(features, sp_adj if self.sparse else adj, self.sparse, None)
+        self.embeddings = embeds
+    
+    def get_embedding(self):
+        return np.squeeze(self.embeddings.numpy())
+    
+        
