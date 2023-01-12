@@ -1,3 +1,5 @@
+# nohup python dgi_experiments.py --graph_path "../data/email.pkl" --run_count 10 --use_id "True" --hyp_key "hyp_email" --outfile "../results/email_dgi.pkl" > ../logs/email_dgi.log 2>&1 &
+
 from utils import *
 
 ap = argparse.ArgumentParser()
@@ -181,10 +183,16 @@ for run_idx in tqdm(range(run_count)):
             norm = Y_id_norm * tf.cast(sense_norm, tf.float32)
             D_id = tf.transpose(tf.transpose(sense_mat) / norm)
             norm_id = [np.linalg.norm(D_id[node, :, :], ord = 'nuc') for node in range(len(graph))]
+            explain_id_norm = np.linalg.norm(explain_id, ord = 'nuc')
 
+
+        explain_og_norm = np.linalg.norm(explain_og, ord = 'nuc')
+        explain_plus_norm = np.linalg.norm(explain_plus, ord = 'nuc')
 
         norm_og = [np.linalg.norm(D_og[node, :, :], ord = 'nuc') for node in range(len(graph))]
         norm_plus = [np.linalg.norm(D_plus[node, :, :], ord = 'nuc') for node in range(len(graph))]
+
+
 
         try:
             results[d]['norm_og'].append(norm_og)

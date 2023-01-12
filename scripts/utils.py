@@ -1347,12 +1347,18 @@ class DGIEmbedding(BaseEmbedder):
         features = torch.FloatTensor(features[np.newaxis])
         if not self.sparse:
             adj = torch.FloatTensor(adj[np.newaxis])
+            if torch.cuda.is_available():
+                adj = adj.cuda()
 
         if self.feature_matrix is not None: 
             sense_features = torch.FloatTensor(self.feature_matrix)
+            if torch.cuda.is_available():
+                sense_features = sense_features.cuda()
 
 
         model = DGI(ft_size, self.hid_units, self.nonlinearity)
+        if torch.cuda.is_available():
+            model = model.cuda()
         optimiser = torch.optim.Adam(model.parameters(), lr = self.lr, weight_decay = self.l2_coef)
 
         b_xent = nn.BCEWithLogitsLoss()
@@ -1376,7 +1382,9 @@ class DGIEmbedding(BaseEmbedder):
             if torch.cuda.is_available():
                 shuf_fts = shuf_fts.cuda()
                 lbl = lbl.cuda()
-
+                sp_adj = sp_adj.cuda()
+                features = features.cuda()
+            
             logits = model(features, shuf_fts, sp_adj if self.sparse else adj, self.sparse, None, None, None) 
             
             if self.use_xm == True and feature_matrix is not None:
@@ -1434,6 +1442,8 @@ class DGIEmbedding(BaseEmbedder):
         self.embeddings = embeds
     
     def get_embedding(self):
+        if torch.cuda.is_available():
+            return np.squeeze(self.embeddings.cpu().numpy())
         return np.squeeze(self.embeddings.numpy())
     
 
