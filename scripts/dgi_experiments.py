@@ -16,7 +16,7 @@ run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
 use_id = args['use_id'] == 'True'
-model_name = a.split('/')[-1].strip('.pkl') + '_model'
+model_name = outfile.split('/')[-1].strip('.pkl') + '_model'
 
 #################################
 ######### Read In Graph #########
