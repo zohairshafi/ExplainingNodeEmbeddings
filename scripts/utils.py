@@ -60,6 +60,7 @@ from collections import deque
 sys.path.append('../')
 from DGI.models import DGI, LogReg
 from DGI.utils import process
+import torch
 
 
 ###################################
@@ -1312,6 +1313,8 @@ class DGIEmbedding(BaseEmbedder):
         self.ortho_ = ortho_
         self.sparse_ = sparse_
         
+        self.time_per_epoch = None
+        
         if graph is not None:
             self.embed()
         else:
@@ -1355,7 +1358,8 @@ class DGIEmbedding(BaseEmbedder):
         cnt_wait = 0
         best = 1e9
         best_t = 0
-
+        
+        start_time = time.time()
         for epoch in tqdm(range(self.nb_epochs)):
             model.train()
             optimiser.zero_grad()
@@ -1391,8 +1395,10 @@ class DGIEmbedding(BaseEmbedder):
                 ortho_loss = (self.ortho_ * E_o) / self.batch_size
                 
                 sparse_loss = (self.sparse_ * torch.sum(torch.linalg.norm(E, ord = 1, axis = 0))) / self.batch_size
-
-            loss = b_xent(logits, lbl) + ortho_loss + sparse_loss
+        
+                loss = b_xent(logits, lbl) + ortho_loss + sparse_loss
+            else:
+                loss = b_xent(logits, lbl)
 
             if self.debug:
                 print('Loss:', loss)
@@ -1412,6 +1418,8 @@ class DGIEmbedding(BaseEmbedder):
 
             loss.backward()
             optimiser.step()
+            
+        self.time_per_epoch = (time.time() - start_time) / epoch
 
         if self.debug: 
             print('Loading {}th epoch'.format(best_t))
@@ -1426,4 +1434,5 @@ class DGIEmbedding(BaseEmbedder):
     def get_embedding(self):
         return np.squeeze(self.embeddings.numpy())
     
-        
+
+
