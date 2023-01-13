@@ -1,3 +1,4 @@
+# nohup python sdne_experiment.py --graph_path "../data/pubmed.pkl" --run_count 10 --hyp_key "hyp_pubmed" --outfile "../results/pubmed_sdne.pkl" > ../logs/pubmed_sdne.log 2>&1 &
 from utils import *
 
 ap = argparse.ArgumentParser()
@@ -44,7 +45,7 @@ if 'Eccentricity' not in sense_feat_dict:
                     'Average Neighbor Degree',
                     'Average Neighbor Clustering',
                     'Katz Centrality']
-                    
+
 sense_features = sense_features[:, [list(sense_feat_dict).index(feat) for feat in uncorrelated_feats]]
 sense_feat_dict = {feat : idx for idx, feat in enumerate(uncorrelated_feats)}
 
@@ -182,6 +183,8 @@ for run_idx in tqdm(range(run_count)):
             results[d]['sdne+xm_time'].append(sdne_plus_time)
             results[d]['error_og'].append(error_og)
             results[d]['error_plus'].append(error_plus)
+            results[d]['embed_og'].append(embed_og)
+            results[d]['embed_plus'].append(embed_plus)
 
             
         except: 
@@ -193,10 +196,11 @@ for run_idx in tqdm(range(run_count)):
             results[d]['sdne+xm_time'] = [sdne_plus_time]
             results[d]['error_og'] = [error_og]
             results[d]['error_plus'] = [error_plus]
+            results[d]['embed_og'] = [embed_og]
+            results[d]['embed_plus'] = [embed_plus]
 
             
-        results[d]['embed_og'] = embed_og
-        results[d]['embed_plus'] = embed_plus
+        
     
     with open(outfile, 'wb') as file: 
         pkl.dump(results, file)

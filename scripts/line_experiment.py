@@ -1,3 +1,4 @@
+# nohup python line_experiment.py --graph_path "../data/pubmed.pkl" --run_count 10 --hyp_key "hyp_pubmed" --outfile "../results/pubmed_line.pkl" > ../logs/pubmed_line.log 2>&1 &
 from utils import *
 
 ap = argparse.ArgumentParser()
@@ -180,6 +181,8 @@ for run_idx in tqdm(range(run_count)):
             results[d]['line+xm_time'].append(line_plus_time)
             results[d]['error_og'].append(error_og)
             results[d]['error_plus'].append(error_plus)
+            results[d]['embed_og'].append(embed_og)
+            results[d]['embed_plus'].append(embed_plus)
             
         except: 
             results[d]['norm_og'] = [norm_og]
@@ -190,6 +193,8 @@ for run_idx in tqdm(range(run_count)):
             results[d]['line+xm_time'] = [line_plus_time]
             results[d]['error_og'] = [error_og]
             results[d]['error_plus'] = [error_plus]
+            results[d]['embed_og'] = [embed_og]
+            results[d]['embed_plus'] = [embed_plus]
             
         results[d]['embed_og'] = embed_og
         results[d]['embed_plus'] = embed_plus
