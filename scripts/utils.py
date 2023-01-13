@@ -1390,23 +1390,46 @@ class DGIEmbedding(BaseEmbedder):
             
             if self.use_xm == True and feature_matrix is not None:
                 
+                start_idx = 0
+                loop = True
+                
+                ortho_loss = 0
+                sparse_loss = 0
+                xm_batch_size = 128
+                
                 sf = sense_features
                 embeds, _ = model.embed(sf, sp_adj if self.sparse else adj, self.sparse, None)
-                embeds = torch.squeeze(embeds)
-                sense_mat = torch.einsum('ij, ik -> ijk', embeds, sf)
-                E = sense_mat
-                y_norm = torch.diagonal(torch.matmul(logits, torch.transpose(logits, 0, 1)))
-                sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
-                norm = torch.multiply(y_norm, sense_norm)
-                E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
-                
-                E_t = torch.transpose(E, 1, 2)
-                E_o = torch.einsum('aij, ajh -> aih', E, E_t)
-                E_o = torch.sum(E_o)
-                ortho_loss = (self.ortho_ * E_o) / self.batch_size
-                
-                sparse_loss = (self.sparse_ * torch.sum(torch.linalg.norm(E, ord = 1, axis = 0))) / self.batch_size
-        
+                                
+                while loop:
+                    end_idx = start_idx + xm_batch_size
+                    if end_idx > len(self.graph):
+                        loop = False
+                        end_idx = len(self.graph)
+                        
+                    
+                    sf = sense_features[start_idx : end_idx]
+                    embeds_ = torch.squeeze(embeds)[start_idx : end_idx]
+                    
+                    
+                    sense_mat = torch.einsum('ij, ik -> ijk', embeds_, sf)
+                    E = sense_mat
+                    y_norm = torch.diagonal(torch.matmul(logits, torch.transpose(logits, 0, 1)))
+                    sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
+                    norm = torch.multiply(y_norm, sense_norm)
+                    E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
+
+                    E_t = torch.transpose(E, 1, 2)
+                    E_o = torch.einsum('aij, ajh -> aih', E, E_t)
+                    E_o = torch.sum(E_o)
+                    batch_ortho_loss = (self.ortho_ * E_o) / self.batch_size
+
+                    batch_sparse_loss = (self.sparse_ * torch.sum(torch.linalg.norm(E, ord = 1, axis = 0))) / self.batch_size
+                        
+                    ortho_loss += batch_ortho_loss
+                    sparse_loss += batch_sparse_loss
+                    
+                    start_idx = end_idx
+                    
                 loss = b_xent(logits, lbl) + ortho_loss + sparse_loss
             else:
                 loss = b_xent(logits, lbl)
