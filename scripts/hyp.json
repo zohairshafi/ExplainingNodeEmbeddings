@@ -74,6 +74,15 @@
                       "sparse" : 10, 
                       "epochs" : 10, 
                       "batch_size" : 128, 
+                      "lr" : 5e-4}, 
+            "dgi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "dgi+xm" : {"use_xm" : "True",
+                      "ortho" : 1, 
+                      "sparse" : 0.1, 
                       "lr" : 5e-4}
 
       },
