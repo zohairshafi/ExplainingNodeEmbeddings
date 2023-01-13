@@ -208,11 +208,15 @@ for run_idx in tqdm(range(run_count)):
             results[d]['error_og'].append(error_og)
             results[d]['error_plus'].append(error_plus)
 
+            results[d]['embed_og'].append(embed_og)
+            results[d]['embed_plus'].append(embed_plus)
+
             if use_id:
                 results[d]['norm_id'].append(norm_id)
                 results[d]['dgi_id_time'].append(dgi_id.time_per_epoch)
                 results[d]['explain_id_norm'].append(explain_id_norm)
                 results[d]['error_id'].append(error_id)
+                results[d]['embed_id'].append(embed_id)
 
 
             
@@ -227,19 +231,21 @@ for run_idx in tqdm(range(run_count)):
             results[d]['error_og'] = [error_og]
             results[d]['error_plus'] = [error_plus]
 
+            results[d]['embed_og'] = [embed_og]
+            results[d]['embed_plus'] = [embed_plus]
+
+
             if use_id:
                 results[d]['norm_id'] = [norm_id]
                 results[d]['explain_id_norm'] = [explain_id_norm]
                 results[d]['dgi_id_time'] = [dgi_id.time_per_epoch]
                 results[d]['error_id'] = [error_id]
 
+                results[d]['embed_id'] = [embed_id]
 
-            
-        results[d]['embed_og'] = embed_og
-        results[d]['embed_plus'] = embed_plus
 
-        if use_id:
-            results[d]['embed_id'] = embed_id
+   
+        
         
     
     with open(outfile, 'wb') as file: 
