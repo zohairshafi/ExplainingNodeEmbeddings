@@ -1395,7 +1395,7 @@ class DGIEmbedding(BaseEmbedder):
                 
                 ortho_loss = 0
                 sparse_loss = 0
-                xm_batch_size = 32
+                xm_batch_size = 128
                 
                 sf = sense_features
                 embeds, _ = model.embed(sf, sp_adj if self.sparse else adj, self.sparse, None)
