@@ -43,6 +43,50 @@
 
       },
 
+      "hyp_squirrel": {
+            "sdne": {
+                  "alpha": 0.1,
+                  "beta": 10,
+                  "gamma": 0,
+                  "delta": 0,
+                  "epochs": 200,
+                  "batch_size": 1024,
+                  "lr": 1e-3
+            },
+            "sdne+xm": {
+                  "alpha": 1,
+                  "beta": 1,
+                  "gamma": 10,
+                  "delta": 10,
+                  "epochs": 400,
+                  "batch_size": 1024,
+                  "lr": 5e-4
+            }, 
+            "line" : {"alpha" : 0.1, 
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "epochs" : 15, 
+                     "batch_size" : 1024, 
+                     "lr" : 1e-3}, 
+
+            "line+xm" : {"alpha" : 100, 
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "epochs" : 50, 
+                      "batch_size" : 1024, 
+                      "lr" : 5e-4},
+            "dgi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "dgi+xm" : {"use_xm" : "True",
+                      "ortho" : 1, 
+                      "sparse" : 0.1, 
+                      "lr" : 5e-4}
+
+      },
+
       "hyp_pubmed": {
             "sdne": {
                   "alpha": 0.1,
