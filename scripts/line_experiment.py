@@ -196,14 +196,11 @@ for run_idx in tqdm(range(run_count)):
             results[d]['embed_og'] = [embed_og]
             results[d]['embed_plus'] = [embed_plus]
             
-        results[d]['embed_og'] = embed_og
-        results[d]['embed_plus'] = embed_plus
-    
+    print ("###### RUN NUMBER : " + str(run_idx))
+    print ("###### Results Len : " + str(len(results[64]['norm_og'])))
     with open(outfile, 'wb') as file: 
         pkl.dump(results, file)
         
-    with open(outfile, 'wb') as file: 
-        pkl.dump(results, file)
 
     run_time.append(time.time() - run_start)
 
