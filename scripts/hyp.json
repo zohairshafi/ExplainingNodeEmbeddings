@@ -203,8 +203,8 @@
                      "lr" : 1e-3}, 
 
             "line+xm" : {"alpha" : 10, 
-                      "ortho" : 100, 
-                      "sparse" : 100, 
+                      "ortho" : 1, 
+                      "sparse" : 1, 
                       "epochs" : 50, 
                       "batch_size" : 1024, 
                       "lr" : 5e-4},
