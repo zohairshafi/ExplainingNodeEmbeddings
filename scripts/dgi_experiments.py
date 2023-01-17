@@ -34,7 +34,7 @@ except:
 #################################
 try: 
     name = hyp_key.strip('hyp_')
-    with open('../data/' + name + '_sf.pkl') as file: 
+    with open('../data/' + name + '_sf.pkl', 'rb') as file: 
         [sense_features, sense_feat_dict] = pkl.load(file)
 
 except: 
@@ -60,7 +60,7 @@ except:
 
     name = hyp_key.strip('hyp_')
 
-    with open('../data/' + name + '_sf.pkl') as file: 
+    with open('../data/' + name + '_sf.pkl', 'wb') as file: 
         pkl.dump([sense_features, sense_feat_dict], file)
 
 #################################
