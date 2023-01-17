@@ -86,11 +86,11 @@ else:
 
 dimensions = [16, 32, 64, 256]
 
-try:
-    with open(outfile, 'rb') as file: 
-        results = pkl.load(file)
-except: 
-    results = {d : {} for d in dimensions}
+# try:
+#     with open(outfile, 'rb') as file: 
+#         results = pkl.load(file)
+# except: 
+results = {d : {} for d in dimensions}
 
 run_time = []
 
