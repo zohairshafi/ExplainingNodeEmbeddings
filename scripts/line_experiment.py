@@ -78,7 +78,7 @@ else:
 ######## Run Experiment #########
 #################################
 
-dimensions = [128]
+dimensions = [64]
 results = {d : {} for d in dimensions}
 run_time = []
 
