@@ -29,25 +29,37 @@ except:
 #################################
 #### Generate Sense Features ####
 #################################
-sense_feat_dict, sense_features = get_sense_features(graph, ppr_flag = 'std')
 
-uncorrelated_feats = ['Degree',
-                    'Clustering Coefficient',
-                    'Personalized Page Rank - Standard Deviation',
-                    'Average Neighbor Degree',
-                    'Average Neighbor Clustering',
-                    'Eccentricity',
-                    'Katz Centrality']
-if 'Eccentricity' not in sense_feat_dict:
+try: 
+    name = hyp_key.strip('hyp_')
+    with open('../data/' + name + '_sf.pkl') as file: 
+        [sense_features, sense_feat_dict] = pkl.load(file)
+
+except: 
+    sense_feat_dict, sense_features = get_sense_features(graph, ppr_flag = 'std')
+
     uncorrelated_feats = ['Degree',
-                    'Clustering Coefficient',
-                    'Personalized Page Rank - Standard Deviation',
-                    'Average Neighbor Degree',
-                    'Average Neighbor Clustering',
-                    'Katz Centrality']
+                        'Clustering Coefficient',
+                        'Personalized Page Rank - Standard Deviation',
+                        'Average Neighbor Degree',
+                        'Average Neighbor Clustering',
+                        'Eccentricity',
+                        'Katz Centrality']
+    if 'Eccentricity' not in sense_feat_dict:
+        uncorrelated_feats = ['Degree',
+                        'Clustering Coefficient',
+                        'Personalized Page Rank - Standard Deviation',
+                        'Average Neighbor Degree',
+                        'Average Neighbor Clustering',
+                        'Katz Centrality']
 
-sense_features = sense_features[:, [list(sense_feat_dict).index(feat) for feat in uncorrelated_feats]]
-sense_feat_dict = {feat : idx for idx, feat in enumerate(uncorrelated_feats)}
+    sense_features = sense_features[:, [list(sense_feat_dict).index(feat) for feat in uncorrelated_feats]]
+    sense_feat_dict = {feat : idx for idx, feat in enumerate(uncorrelated_feats)}
+
+    name = hyp_key.strip('hyp_')
+
+    with open('../data/' + name + '_sf.pkl') as file: 
+        pkl.dump([sense_features, sense_feat_dict], file)
 
 #################################
 ######## Hyperparameters ########
