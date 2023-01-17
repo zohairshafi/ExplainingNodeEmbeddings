@@ -37,7 +37,7 @@
                      "lr" : 1e-3}, 
 
             "dgi+xm" : {"use_xm" : "True",
-                      "ortho" : 10, 
+                      "ortho" : 100, 
                       "sparse" : 10, 
                       "lr" : 5e-4}
 
