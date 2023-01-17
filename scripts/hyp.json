@@ -54,10 +54,10 @@
                   "lr": 1e-3
             },
             "sdne+xm": {
-                  "alpha": 1,
+                  "alpha": 0.1,
                   "beta": 1,
                   "gamma": 1000,
-                  "delta": 100,
+                  "delta": 1000,
                   "epochs": 400,
                   "batch_size": 1024,
                   "lr": 5e-4
@@ -65,14 +65,14 @@
             "line" : {"alpha" : 0.1, 
                      "ortho" : 0, 
                      "sparse" : 0, 
-                     "epochs" : 5, 
+                     "epochs" : 10, 
                      "batch_size" : 1024, 
                      "lr" : 1e-3}, 
 
             "line+xm" : {"alpha" : 100, 
-                      "ortho" : 10, 
-                      "sparse" : 10, 
-                      "epochs" : 15, 
+                      "ortho" : 100, 
+                      "sparse" : 100, 
+                      "epochs" : 50, 
                       "batch_size" : 1024, 
                       "lr" : 5e-4},
             "dgi" : {"use_xm" : "False",
@@ -187,11 +187,11 @@
                   "lr": 1e-3
             },
             "sdne+xm": {
-                  "alpha": 1,
-                  "beta": 1,
+                  "alpha": 0.1,
+                  "beta": 10,
                   "gamma": 1000,
-                  "delta": 100,
-                  "epochs": 200,
+                  "delta": 1000,
+                  "epochs": 400,
                   "batch_size": 1024,
                   "lr": 5e-4
             }, 
@@ -203,8 +203,8 @@
                      "lr" : 1e-3}, 
 
             "line+xm" : {"alpha" : 10, 
-                      "ortho" : 10, 
-                      "sparse" : 10, 
+                      "ortho" : 100, 
+                      "sparse" : 100, 
                       "epochs" : 50, 
                       "batch_size" : 1024, 
                       "lr" : 5e-4},
