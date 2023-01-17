@@ -1,0 +1,20 @@
+[W 2023-01-17 10:00:50.893 LabApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2023-01-17 10:00:50.893 LabApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[I 2023-01-17 10:00:50.900 LabApp] JupyterLab extension loaded from /home/shafi.z/.conda/envs/gpu/lib/python3.8/site-packages/jupyterlab
+[I 2023-01-17 10:00:50.900 LabApp] JupyterLab application directory is /home/shafi.z/.conda/envs/gpu/share/jupyter/lab
+[I 10:00:50.904 NotebookApp] Serving notebooks from local directory: /home/shafi.z/ExplainingNodeEmbeddings/scripts
+[I 10:00:50.904 NotebookApp] Jupyter Notebook 6.4.5 is running at:
+[I 10:00:50.904 NotebookApp] http://10.99.253.253:8888/?token=5d5de17e3d2777a90ac3986003930725a755e6c111bd91e2
+[I 10:00:50.904 NotebookApp]  or http://127.0.0.1:8888/?token=5d5de17e3d2777a90ac3986003930725a755e6c111bd91e2
+[I 10:00:50.905 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 10:00:50.913 NotebookApp] No web browser found: could not locate runnable browser.
+[C 10:00:50.913 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/shafi.z/.local/share/jupyter/runtime/nbserver-32384-open.html
+    Or copy and paste one of these URLs:
+        http://10.99.253.253:8888/?token=5d5de17e3d2777a90ac3986003930725a755e6c111bd91e2
+     or http://127.0.0.1:8888/?token=5d5de17e3d2777a90ac3986003930725a755e6c111bd91e2
+[C 10:00:59.259 NotebookApp] received signal 15, stopping
+[I 10:00:59.263 NotebookApp] Shutting down 0 kernels
+[I 10:00:59.263 NotebookApp] Shutting down 0 terminals

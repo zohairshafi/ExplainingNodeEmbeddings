@@ -1,0 +1,78 @@
+[W 2023-01-12 15:18:20.029 LabApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[W 2023-01-12 15:18:20.029 LabApp] 'ip' has moved from NotebookApp to ServerApp. This config will be passed to ServerApp. Be sure to update your config before our next release.
+[I 2023-01-12 15:18:20.036 LabApp] JupyterLab extension loaded from /home/shafi.z/.conda/envs/gpu/lib/python3.8/site-packages/jupyterlab
+[I 2023-01-12 15:18:20.036 LabApp] JupyterLab application directory is /home/shafi.z/.conda/envs/gpu/share/jupyter/lab
+[I 15:18:20.052 NotebookApp] Serving notebooks from local directory: /home/shafi.z/ExplainingNodeEmbeddings
+[I 15:18:20.052 NotebookApp] Jupyter Notebook 6.4.5 is running at:
+[I 15:18:20.052 NotebookApp] http://10.99.253.254:8888/?token=28bfd4113113a8572d71b489fba4fa87c3e91c276f870f9a
+[I 15:18:20.052 NotebookApp]  or http://127.0.0.1:8888/?token=28bfd4113113a8572d71b489fba4fa87c3e91c276f870f9a
+[I 15:18:20.052 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 15:18:20.060 NotebookApp] No web browser found: could not locate runnable browser.
+[C 15:18:20.060 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/shafi.z/.local/share/jupyter/runtime/nbserver-74123-open.html
+    Or copy and paste one of these URLs:
+        http://10.99.253.254:8888/?token=28bfd4113113a8572d71b489fba4fa87c3e91c276f870f9a
+     or http://127.0.0.1:8888/?token=28bfd4113113a8572d71b489fba4fa87c3e91c276f870f9a
+[I 15:18:29.448 NotebookApp] 302 GET / (155.33.133.59) 0.400000ms
+[I 15:18:29.457 NotebookApp] 302 GET /tree? (155.33.133.59) 0.420000ms
+[I 15:18:45.216 NotebookApp] 302 POST /login?next=%2Ftree%3F (155.33.133.59) 0.800000ms
+[I 15:18:52.006 NotebookApp] Creating new notebook in 
+[W 15:18:57.231 NotebookApp] 404 GET /nbextensions/collapsible_headings/main.js?v=20230112151819 (155.33.133.59) 28.390000ms referer=http://10.99.253.254:8888/notebooks/Untitled.ipynb?kernel_name=python3
+[I 15:18:57.367 NotebookApp] Kernel started: c78abe9a-6f95-406e-a778-2a4c8762dc5a, name: python3
+[W 15:18:57.371 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20230112151819 (155.33.133.59) 2.590000ms referer=http://10.99.253.254:8888/notebooks/Untitled.ipynb?kernel_name=python3
+[I 15:18:59.759 NotebookApp] Starting buffering for c78abe9a-6f95-406e-a778-2a4c8762dc5a:067486455ac34f49a064ce9ef060bfec
+[I 15:19:05.496 NotebookApp] Kernel shutdown: c78abe9a-6f95-406e-a778-2a4c8762dc5a
+[W 15:19:05.700 NotebookApp] delete /Untitled.ipynb
+[I 15:19:07.763 NotebookApp] Creating new notebook in 
+[I 15:19:09.012 NotebookApp] Kernel started: 3db9692c-f9e3-47c1-bf89-f2e473f123dd, name: gpu
+[W 15:19:09.355 NotebookApp] 404 GET /nbextensions/collapsible_headings/main.js?v=20230112151819 (155.33.133.59) 2.390000ms referer=http://10.99.253.254:8888/notebooks/Untitled.ipynb?kernel_name=gpu
+[W 15:19:09.371 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20230112151819 (155.33.133.59) 0.880000ms referer=http://10.99.253.254:8888/notebooks/Untitled.ipynb?kernel_name=gpu
+[I 15:21:09.013 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:23:22.927 NotebookApp] 302 GET /tree? (155.33.133.59) 1.130000ms
+[I 15:29:09.027 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:35:09.464 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:35:27.108 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:37:09.295 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:39:09.506 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:45:09.408 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:47:09.121 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 15:51:09.153 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:01:09.190 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:03:09.194 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:04:59.837 NotebookApp] Starting buffering for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:05:02.457 NotebookApp] Kernel restarted: 3db9692c-f9e3-47c1-bf89-f2e473f123dd
+[I 16:05:02.529 NotebookApp] Restoring connection for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:05:03.840 NotebookApp] Replaying 3 buffered messages
+[I 16:05:09.270 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:07:09.394 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:09:09.214 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:11:09.321 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:13:09.160 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:15:09.571 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:17:09.254 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:19:09.320 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:21:02.603 NotebookApp] Kernel interrupted: 3db9692c-f9e3-47c1-bf89-f2e473f123dd
+[I 16:21:04.874 NotebookApp] Kernel interrupted: 3db9692c-f9e3-47c1-bf89-f2e473f123dd
+[I 16:21:09.124 NotebookApp] Saving file at /Results Visualisation.ipynb
+2023-01-12 16:22:45.417228: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-01-12 16:22:45.892307: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 13140 MB memory:  -> device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:1c:00.0, compute capability: 7.0
+[I 16:23:09.170 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:25:09.177 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:26:45.530 NotebookApp] Starting buffering for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:26:49.058 NotebookApp] Kernel restarted: 3db9692c-f9e3-47c1-bf89-f2e473f123dd
+[I 16:26:49.103 NotebookApp] Restoring connection for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:26:50.767 NotebookApp] Replaying 3 buffered messages
+[I 16:39:09.200 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:41:09.447 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:43:27.375 NotebookApp] Starting buffering for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:43:27.596 NotebookApp] Kernel restarted: 3db9692c-f9e3-47c1-bf89-f2e473f123dd
+[I 16:43:28.009 NotebookApp] Restoring connection for 3db9692c-f9e3-47c1-bf89-f2e473f123dd:c704e04efcff4dda82b6a3eacf588597
+[I 16:43:28.952 NotebookApp] Replaying 3 buffered messages
+[I 16:43:29.073 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:47:09.379 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:49:09.239 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:51:09.246 NotebookApp] Saving file at /Results Visualisation.ipynb
+[I 16:53:09.261 NotebookApp] Saving file at /Results Visualisation.ipynb
