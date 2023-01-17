@@ -56,8 +56,8 @@
             "sdne+xm": {
                   "alpha": 1,
                   "beta": 1,
-                  "gamma": 10,
-                  "delta": 10,
+                  "gamma": 1000,
+                  "delta": 100,
                   "epochs": 400,
                   "batch_size": 1024,
                   "lr": 5e-4
