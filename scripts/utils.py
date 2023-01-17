@@ -1413,7 +1413,7 @@ class DGIEmbedding(BaseEmbedder):
                     
                     sense_mat = torch.einsum('ij, ik -> ijk', embeds_, sf)
                     E = sense_mat
-                    y_norm = torch.diagonal(torch.matmul(logits, torch.transpose(logits, 0, 1)))
+                    y_norm = torch.diagonal(torch.matmul(embeds_, torch.transpose(embeds_, 0, 1)))
                     sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
                     norm = torch.multiply(y_norm, sense_norm)
                     E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
