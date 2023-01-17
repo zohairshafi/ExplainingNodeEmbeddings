@@ -198,14 +198,14 @@
             "line" : {"alpha" : 0.1, 
                      "ortho" : 0, 
                      "sparse" : 0, 
-                     "epochs" : 5, 
+                     "epochs" : 10, 
                      "batch_size" : 1024, 
                      "lr" : 1e-3}, 
 
-            "line+xm" : {"alpha" : 100, 
+            "line+xm" : {"alpha" : 10, 
                       "ortho" : 10, 
                       "sparse" : 10, 
-                      "epochs" : 10, 
+                      "epochs" : 50, 
                       "batch_size" : 1024, 
                       "lr" : 5e-4},
 
