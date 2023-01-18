@@ -1,0 +1,1 @@
+from GMI.models.logreg import LogReg
