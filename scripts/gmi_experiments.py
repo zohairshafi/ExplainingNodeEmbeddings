@@ -1,6 +1,8 @@
 # nohup python gmi_experiments.py --graph_path "../data/email.pkl" --run_count 10 --use_id "True" --hyp_key "hyp_email" --outfile "../results/email_gmi.pkl" > ../logs/email_gmi.log 2>&1 &
 
 from utils import *
+
+sys.path.append('../')
 from GMI.models import GMI, LogReg
 from GMI.utils import process
 
