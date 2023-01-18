@@ -10,6 +10,7 @@ ap.add_argument("-r", "--run_count", required = True, help = "Number of iteratio
 ap.add_argument("-k", "--hyp_key", required = True, help = "Key to index the hyperparameter json file")
 ap.add_argument("-o", "--outfile", required = True, help = "File name to save results into")
 ap.add_argument("-i", "--use_id", required = True, help = "Flag - Run DGI with identity matrix as the node feature matrix")
+ap.add_argument("-u", "--update_outfile", required = False, help = "If outfile already exists, read it in instead of over writing it")
 
 args = vars(ap.parse_args())
 
@@ -18,7 +19,13 @@ run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
 use_id = args['use_id'] == 'True'
-model_name = outfile.split('/')[-1].strip('.pkl') + '_model'
+model_name = '../results/' + outfile.split('/')[-1].strip('.pkl') + '_model'
+
+if 'update_outfile' in args:
+    update_outfile = True
+    print ("Appending to outfile")
+else: 
+    update_outfile = False
 
 #################################
 ######### Read In Graph #########
@@ -102,8 +109,11 @@ dimensions = [16, 32, 64, 128, 256]
 #     with open(outfile, 'rb') as file: 
 #         results = pkl.load(file)
 # except: 
-results = {d : {} for d in dimensions}
-
+if update_outfile == False:
+    results = {d : {} for d in dimensions}
+else: 
+    with open(outfile, 'rb') as file: 
+        results = pkl.load(file)
 run_time = []
 
 for run_idx in tqdm(range(run_count)):

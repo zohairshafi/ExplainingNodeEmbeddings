@@ -6,6 +6,7 @@ ap.add_argument("-g", "--graph_path", required = True, help = 'Path to an nx.Gra
 ap.add_argument("-r", "--run_count", required = True, help = "Number of iterations for the experiment", default = 1)
 ap.add_argument("-k", "--hyp_key", required = True, help = "Key to index the hyperparameter json file")
 ap.add_argument("-o", "--outfile", required = True, help = "File name to save results into")
+ap.add_argument("-u", "--update_outfile", required = False, help = "If outfile already exists, read it in instead of over writing it")
 
 args = vars(ap.parse_args())
 
@@ -13,6 +14,12 @@ filename = args['graph_path']
 run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
+
+if 'update_outfile' in args:
+    update_outfile = True
+    print ("Appending to outfile")
+else: 
+    update_outfile = False
 
 #################################
 ######### Read In Graph #########
@@ -89,8 +96,11 @@ else:
 #################################
 
 dimensions = [16, 32, 64, 128, 256]
-results = {d : {} for d in dimensions}
-run_time = []
+if update_outfile == False:
+    results = {d : {} for d in dimensions}
+else: 
+    with open(outfile, 'rb') as file: 
+        results = pkl.load(file)run_time = []
 
 for run_idx in tqdm(range(run_count)):
     
