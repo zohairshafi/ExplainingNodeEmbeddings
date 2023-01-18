@@ -749,10 +749,11 @@ def create_model_plus(node_size, sense_feat_size, hidden_size = [256, 128], l1 =
     sense_norm = tf.linalg.diag_part(tf.matmul(sense, sense, transpose_b = True), k = 0)
     norm = tf.multiply(y_norm, sense_norm)
     E = tf.transpose(tf.transpose(E) / norm)
-    
+    E = (E - tf.reshape(tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(E, axis = [-1, -2]) - tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))
     
     E_t = tf.transpose(E, perm = [0, 2, 1]) 
     E_1 = tf.einsum('aij, ajh -> aih', E, E_t)
+
     E_1 = tf.reduce_sum(E_1)
     
     
