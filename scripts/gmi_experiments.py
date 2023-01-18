@@ -3,8 +3,8 @@
 from utils import *
 
 sys.path.append('../')
-from GMI.models import GMI, LogReg
-from GMI.utils import process
+from GMI_.models import GMI, LogReg
+from GMI_.utils import process
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-g", "--graph_path", required = True, help = 'Path to an nx.Graph object stored as a .pkl file')
