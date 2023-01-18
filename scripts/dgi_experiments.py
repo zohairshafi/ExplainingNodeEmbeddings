@@ -94,7 +94,7 @@ else:
 ######## Run Experiment #########
 #################################
 
-dimensions = [64]
+dimensions = [16, 32, 64, 128, 256]
 
 # try:
 #     with open(outfile, 'rb') as file: 
