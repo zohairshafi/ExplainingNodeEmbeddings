@@ -1282,7 +1282,8 @@ def alias_sample(accept, alias):
 ###########################################
 ######## Embedding Methods - DGI ##########
 ###########################################
-
+from DGI.models import DGI, LogReg
+from DGI.utils import process
 class BaseEmbedder:
     def __init__(self, graph, embed_shape = (128,)):
         self.embed(graph)
@@ -1482,7 +1483,8 @@ class DGIEmbedding(BaseEmbedder):
 ###########################################
 ######## Embedding Methods - GMI ##########
 ###########################################
-
+from GMI.models import GMI, LogReg
+from GMI.utils import process
 class GMIEmbedding(BaseEmbedder):
     def __init__(self, embed_dim = 64, graph = None, feature_matrix = None, use_xm = False, debug = False, batch_size = 1, nb_epochs = 500, patience = 20, ortho_ = 0.1, sparse_ = 0.1, lr = 1e-3, l2_coef = 0.0, drop_prob = 0.0, sparse = True, nonlinearity = 'prelu', alpha = 0.8, beta = 1.0, gamma = 1.0, negative_num = 5, epoch_flag = 20, model_name = 'test'):
 
