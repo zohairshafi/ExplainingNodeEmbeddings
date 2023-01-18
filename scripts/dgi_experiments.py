@@ -1,6 +1,8 @@
 # nohup python dgi_experiments.py --graph_path "../data/email.pkl" --run_count 10 --use_id "True" --hyp_key "hyp_email" --outfile "../results/email_dgi.pkl" > ../logs/email_dgi.log 2>&1 &
 
 from utils import *
+from DGI.models import DGI, LogReg
+from DGI.utils import process
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-g", "--graph_path", required = True, help = 'Path to an nx.Graph object stored as a .pkl file')

@@ -61,8 +61,6 @@ sys.path.append('../')
 
 import torch
 import torch.nn as nn
-from DGI.models import DGI, LogReg
-from DGI.utils import process
 
 
 ###################################
@@ -511,7 +509,7 @@ def decoder_model(input_shape):
     
     X = Concatenate()([node_a, node_b])
     X = Dense(64, activation = 'relu')(X)
-    X = Dense(2, activation = 'softmax')(X)
+    X = Dense(1, activation = 'softmax')(X)
     
     return Model(inputs = [node_a, node_b], outputs = X)
 
