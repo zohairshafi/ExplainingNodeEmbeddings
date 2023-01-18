@@ -1,1 +1,1 @@
-from GMI.models.logreg import LogReg
+from GMI_.models.logreg import LogReg

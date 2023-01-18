@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from GMI.utils import process
-from GMI.layers import GCN, AvgNeighbor, Discriminator
+from GMI_.utils import process
+from GMI_.layers import GCN, AvgNeighbor, Discriminator
 
 class GMI(nn.Module):
     def __init__(self, n_in, n_h, activation):

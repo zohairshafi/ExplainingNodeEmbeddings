@@ -5,7 +5,7 @@ import numpy as np
 import pickle as pkl
 import networkx as nx
 import scipy.sparse as sp
-from GMI.models.logreg import LogReg
+from GMI_.models.logreg import LogReg
 
 ###############################################
 # This section of code adapted from tkipf/GCN and Petar Veličković/DGI #

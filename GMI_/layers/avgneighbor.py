@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from GMI.utils import process
+from GMI_.utils import process
 
 # Applies mean-pooling on neighbors
 class AvgNeighbor(nn.Module):
