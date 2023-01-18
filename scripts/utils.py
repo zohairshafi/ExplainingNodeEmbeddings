@@ -1422,7 +1422,7 @@ class DGIEmbedding(BaseEmbedder):
                     sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
                     norm = torch.multiply(y_norm, sense_norm)
                     E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
-                    #E = (E - torch.amin(E, dim = [-1, -2], keepdim = True)) / (torch.amax(E, dim = [-1, -2], keepdim = True) - torch.amin(E, dim = [-1, -2], keepdim = True))
+                    E = (E - torch.amin(E, dim = [-1, -2], keepdim = True)) / (torch.amax(E, dim = [-1, -2], keepdim = True) - torch.amin(E, dim = [-1, -2], keepdim = True))
 
                     E_t = torch.transpose(E, 1, 2)
                     E_o = torch.einsum('aij, ajh -> aih', E, E_t)
