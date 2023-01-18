@@ -40,6 +40,17 @@
                       "ortho" : 100, 
                       "sparse" : 100, 
                       "lr" : 5e-4, 
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "lr" : 5e-4, 
                       "patience" : 500}
 
       },
@@ -85,6 +96,17 @@
                       "ortho" : 100, 
                       "sparse" : 100, 
                       "lr" : 5e-4, 
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "lr" : 5e-4, 
                       "patience" : 500}
 
       },
@@ -129,6 +151,17 @@
             "dgi+xm" : {"use_xm" : "True",
                       "ortho" : 100, 
                       "sparse" : 100, 
+                      "lr" : 5e-4, 
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
                       "lr" : 5e-4, 
                       "patience" : 500}
 
@@ -176,6 +209,17 @@
                       "ortho" : 100, 
                       "sparse" : 100, 
                       "lr" : 5e-4,
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "lr" : 5e-4, 
                       "patience" : 500}
 
       },
@@ -222,6 +266,17 @@
                       "ortho" : 100, 
                       "sparse" : 100, 
                       "lr" : 5e-4, 
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
+                      "lr" : 5e-4, 
                       "patience" : 500}
 
       },
@@ -267,6 +322,17 @@
             "dgi+xm" : {"use_xm" : "True",
                       "ortho" : 100, 
                       "sparse" : 100, 
+                      "lr" : 5e-4, 
+                      "patience" : 500},
+
+            "gmi" : {"use_xm" : "False",
+                     "ortho" : 0, 
+                     "sparse" : 0, 
+                     "lr" : 1e-3}, 
+
+            "gmi+xm" : {"use_xm" : "True",
+                      "ortho" : 10, 
+                      "sparse" : 10, 
                       "lr" : 5e-4, 
                       "patience" : 500}
 

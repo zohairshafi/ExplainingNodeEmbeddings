@@ -1476,3 +1476,195 @@ class DGIEmbedding(BaseEmbedder):
     
 
 
+
+
+
+###########################################
+######## Embedding Methods - GMI ##########
+###########################################
+
+class GMIEmbedding(BaseEmbedder):
+    def __init__(self, embed_dim = 64, graph = None, feature_matrix = None, use_xm = False, debug = False, batch_size = 1, nb_epochs = 500, patience = 20, ortho_ = 0.1, sparse_ = 0.1, lr = 1e-3, l2_coef = 0.0, drop_prob = 0.0, sparse = True, nonlinearity = 'prelu', alpha = 0.8, beta = 1.0, gamma = 1.0, negative_num = 5, epoch_flag = 20, model_name = 'test'):
+
+        self.embed_dim = embed_dim
+        self.debug = debug
+        
+        # Training Params
+        self.graph = graph
+        self.batch_size = batch_size
+        self.nb_epochs = nb_epochs
+        self.patience = patience
+        self.lr = lr
+        self.l2_coef = l2_coef
+        self.feature_matrix = feature_matrix
+        self.drop_prob = drop_prob
+        self.hid_units = embed_dim
+        self.sparse = sparse
+        self.nonlinearity = nonlinearity
+        self.use_xm = use_xm
+        self.ortho_ = ortho_
+        self.sparse_ = sparse_
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
+        self.negative_num = negative_num
+        self.epoch_flag = epoch_flag
+        self.model_name = model_name
+        
+        self.time_per_epoch = None
+        
+        if graph is not None:
+            self.embed()
+        else:
+            self.graph = None
+    
+    def embed(self):
+
+        ####
+        if self.feature_matrix is None:
+            feature_matrix = np.identity(len(self.graph))
+        else: 
+            feature_matrix = self.feature_matrix
+
+        adj_ori = nx.to_scipy_sparse_array(graph)
+        features = sp.lil_matrix(feature_matrix)
+        features, _ = process.preprocess_features(features)
+
+        nb_nodes = features.shape[0]
+        ft_size = features.shape[1]
+        
+        adj = process.normalize_adj(adj_ori + sp.eye(adj_ori.shape[0]))
+
+        if self.sparse:
+            sp_adj = process.sparse_mx_to_torch_sparse_tensor(adj)
+        else:
+            adj = (adj + sp.eye(adj.shape[0])).todense()
+
+        features = torch.FloatTensor(features[np.newaxis])
+        if not self.sparse:
+            adj = torch.FloatTensor(adj[np.newaxis])
+
+        if self.feature_matrix is not None: 
+            sense_features = torch.FloatTensor(self.feature_matrix)
+
+        model = GMI(ft_size, self.hid_units, self.nonlinearity)
+        optimiser = torch.optim.Adam(model.parameters(), lr = self.lr, weight_decay = self.l2_coef)
+        
+        if self.use_xm:
+             model.load_state_dict(torch.load(self.model_name + '.pkl'))
+        
+        if torch.cuda.is_available():
+            model.cuda()
+            features = features.cuda()
+            sp_adj = sp_adj.cuda()
+            
+        b_xent = nn.BCEWithLogitsLoss()
+        xent = nn.CrossEntropyLoss()
+        cnt_wait = 0
+        best = 1e9
+        best_t = 0
+        
+        
+        adj_dense = adj_ori.toarray()
+        adj_target = adj_dense + np.eye(adj_dense.shape[0])
+        adj_row_avg = 1.0 / np.sum(adj_dense, axis = 1)
+        adj_row_avg[np.isnan(adj_row_avg)] = 0.0
+        adj_row_avg[np.isinf(adj_row_avg)] = 0.0
+        adj_dense = adj_dense * 1.0
+        
+        for i in range(adj_ori.shape[0]):
+            adj_dense[i] = adj_dense[i] * adj_row_avg[i]
+        adj_ori = sp.csr_matrix(adj_dense, dtype = np.float32)
+        
+        start_time = time.time()
+        for epoch in tqdm(range(self.nb_epochs)):
+            model.train()
+            optimiser.zero_grad()
+            
+            res = model(features, adj_ori, self.negative_num, sp_adj, None, None) 
+            
+            if self.use_xm == True and feature_matrix is not None:
+                
+                start_idx = 0
+                loop = True
+                
+                ortho_loss = 0
+                sparse_loss = 0
+                xm_batch_size = 128
+                
+                sf = sense_features
+                embeds = model.embed(features, sp_adj)
+                                
+                while loop:
+                    end_idx = start_idx + xm_batch_size
+                    if end_idx > len(self.graph):
+                        loop = False
+                        end_idx = len(self.graph)
+                                            
+                    sf = sense_features[start_idx : end_idx]
+                    embeds_ = torch.squeeze(embeds)[start_idx : end_idx]
+                    
+                    
+                    sense_mat = torch.einsum('ij, ik -> ijk', embeds_, sf)
+                    E = sense_mat
+                    y_norm = torch.diagonal(torch.matmul(embeds_, torch.transpose(embeds_, 0, 1)))
+                    sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
+                    norm = torch.multiply(y_norm, sense_norm)
+                    E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
+                    E = (E - torch.amin(E, dim = [-1, -2], keepdim = True)) / (torch.amax(E, dim = [-1, -2], keepdim = True) - torch.amin(E, dim = [-1, -2], keepdim = True))
+                    
+                    E_t = torch.transpose(E, 1, 2)
+                    
+                    E_o = torch.einsum('aij, ajh -> aih', E, E_t)
+                    E_o = torch.sum(E_o)
+                    batch_ortho_loss = (self.ortho_ * E_o) / self.batch_size
+
+                    batch_sparse_loss = (self.sparse_ * torch.sum(torch.linalg.norm(E, ord = 1, axis = 0))) / self.batch_size
+                        
+                    ortho_loss += batch_ortho_loss
+                    sparse_loss += batch_sparse_loss
+                    
+                    start_idx = end_idx
+                    
+                loss = self.alpha * process.mi_loss_jsd(res[0], res[1]) +\
+                       self.beta * process.mi_loss_jsd(res[2], res[3]) +\
+                       self.gamma * process.reconstruct_loss(res[4], adj_target) +\
+                       ortho_loss +\
+                       sparse_loss
+            else:
+                loss = self.alpha * process.mi_loss_jsd(res[0], res[1]) +\
+                       self.beta * process.mi_loss_jsd(res[2], res[3]) +\
+                       self.gamma * process.reconstruct_loss(res[4], adj_target)
+
+
+            if self.debug:
+                print('Loss:', loss)
+
+            if loss < best:
+                best = loss
+                best_t = epoch
+                cnt_wait = 0
+                torch.save(model.state_dict(), self.model_name + '.pkl')
+            else:
+                cnt_wait += 1
+
+            if cnt_wait == self.epoch_flag:
+                print('Early stopping!')
+                break
+
+            loss.backward()
+            optimiser.step()
+            
+        self.time_per_epoch = (time.time() - start_time) / epoch
+
+        if self.debug: 
+            print('Loading {}th epoch'.format(best_t))
+            
+        model.load_state_dict(torch.load(self.model_name + '.pkl'))
+
+        embeds = model.embed(features, sp_adj)
+        self.embeddings = embeds
+    
+    def get_embedding(self):
+        return np.squeeze(self.embeddings.numpy())
+    
