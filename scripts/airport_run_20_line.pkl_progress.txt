@@ -1,4 +1,0 @@
-Current Run : 14
-Last Iteration Time : 800.5084760189056s
-Average Iteration Time : 799.7435367584228s
-Estimated Time Left : 4798.461220550536s
