@@ -989,6 +989,8 @@ def create_model_line(num_nodes, embedding_size, sense_feat_size, order = 'secon
         sense_norm = tf.linalg.diag_part(tf.matmul(sense_i, sense_i, transpose_b = True), k = 0)
         norm = tf.multiply(y_norm, sense_norm)
         E = tf.transpose(tf.transpose(E) / norm)
+        E = (E - tf.reshape(tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(E, axis = [-1, -2]) - tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))
+
 
     
     ### Second Embed ###
@@ -1006,6 +1008,8 @@ def create_model_line(num_nodes, embedding_size, sense_feat_size, order = 'secon
         sense_norm = tf.linalg.diag_part(tf.matmul(sense_i, sense_i, transpose_b = True), k = 0)
         norm = tf.multiply(y_norm, sense_norm)
         E = tf.transpose(tf.transpose(E) / norm)
+        E = (E - tf.reshape(tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(E, axis = [-1, -2]) - tf.reduce_min(E, axis = [-1, -2]), (-1, 1, 1))
+
     
     ### Loss Computations
     E_t = tf.transpose(E, perm = [0, 2, 1])
@@ -1418,6 +1422,7 @@ class DGIEmbedding(BaseEmbedder):
                     sense_norm = torch.diagonal(torch.matmul(sf, torch.transpose(sf, 0, 1)))
                     norm = torch.multiply(y_norm, sense_norm)
                     E = torch.transpose(torch.transpose(E, 0, 2) / norm, 0, 2)
+                    E = (E - torch.amin(E, dim = [-1, -2], keepdim = True)) / (torch.amax(E, dim = [-1, -2], keepdim = True) - torch.amin(E, dim = [-1, -2], keepdim = True))
 
                     E_t = torch.transpose(E, 1, 2)
                     E_o = torch.einsum('aij, ajh -> aih', E, E_t)

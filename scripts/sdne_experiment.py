@@ -173,6 +173,8 @@ for run_idx in tqdm(range(run_count)):
         sense_norm = tf.linalg.diag_part(tf.matmul(sense_features, sense_features, transpose_b = True), k = 0)
         norm = Y_og_norm * tf.cast(sense_norm, tf.float32)
         D_og = tf.transpose(tf.transpose(sense_mat) / norm)
+        D_og = (D_og - tf.reshape(tf.reduce_min(D_og, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(D_og, axis = [-1, -2]) - tf.reduce_min(D_og, axis = [-1, -2]), (-1, 1, 1))
+        orth_og = np.squeeze(tf.reduce_sum(D_og @ tf.transpose(D_og, perm = (0, 2, 1)), axis = [1, 2]))
 
 
         Y_plus = embed_plus
@@ -181,13 +183,20 @@ for run_idx in tqdm(range(run_count)):
         sense_norm = tf.linalg.diag_part(tf.matmul(sense_features, sense_features, transpose_b = True), k = 0)
         norm = Y_plus_norm * tf.cast(sense_norm, tf.float32)
         D_plus = tf.transpose(tf.transpose(sense_mat) / norm)
+        D_plus = (D_plus - tf.reshape(tf.reduce_min(D_plus, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(D_plus, axis = [-1, -2]) - tf.reduce_min(D_plus, axis = [-1, -2]), (-1, 1, 1))
+        orth_plus = np.squeeze(tf.reduce_sum(D_plus @ tf.transpose(D_plus, perm = (0, 2, 1)), axis = [1, 2]))
+
 
         norm_og = [np.linalg.norm(D_og[node, :, :], ord = 'nuc') for node in range(len(graph))]
         norm_plus = [np.linalg.norm(D_plus[node, :, :], ord = 'nuc') for node in range(len(graph))]
+
+
         
         try:
             results[d]['norm_og'].append(norm_og)
             results[d]['norm_plus'].append(norm_plus)
+            results[d]['orth_og'].append(orth_og)
+            results[d]['orth_plus'].append(orth_plus)
             results[d]['explain_og_norm'].append(explain_og_norm)
             results[d]['explain_plus_norm'].append(explain_plus_norm)
             results[d]['sdne_time'].append(sdne_time)
@@ -201,6 +210,8 @@ for run_idx in tqdm(range(run_count)):
         except: 
             results[d]['norm_og'] = [norm_og]
             results[d]['norm_plus'] = [norm_plus]
+            results[d]['orth_og'] = [orth_og]
+            results[d]['orth_plus'] = [orth_plus]
             results[d]['explain_og_norm'] = [explain_og_norm]
             results[d]['explain_plus_norm'] = [explain_plus_norm]
             results[d]['sdne_time'] = [sdne_time]
