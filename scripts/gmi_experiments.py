@@ -12,7 +12,7 @@ ap.add_argument("-r", "--run_count", required = True, help = "Number of iteratio
 ap.add_argument("-k", "--hyp_key", required = True, help = "Key to index the hyperparameter json file")
 ap.add_argument("-o", "--outfile", required = True, help = "File name to save results into")
 ap.add_argument("-i", "--use_id", required = True, help = "Flag - Run GMI with identity matrix as the node feature matrix")
-ap.add_argument("-u", "--update_outfile", required = False, help = "If outfile already exists, read it in instead of over writing it")
+ap.add_argument("-u", "--update_outfile", required = True, help = "If outfile already exists, read it in instead of over writing it")
 
 
 args = vars(ap.parse_args())
@@ -23,11 +23,8 @@ hyp_key = args['hyp_key']
 outfile = args['outfile']
 use_id = args['use_id'] == 'True'
 model_name = '../results/' + outfile.split('/')[-1].strip('.pkl') + '_model'
+update_outfile = args['update_outfile'] == "True"
 
-if 'update_outfile' in args:
-    update_outfile = True
-else: 
-    update_outfile = False
 
 #################################
 ######### Read In Graph #########

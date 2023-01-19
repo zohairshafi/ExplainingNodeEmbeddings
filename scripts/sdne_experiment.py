@@ -14,12 +14,8 @@ filename = args['graph_path']
 run_count = int(args['run_count'])
 hyp_key = args['hyp_key']
 outfile = args['outfile']
+update_outfile = args['update_outfile'] == "True"
 
-if 'update_outfile' in args:
-    update_outfile = True
-    print ("Appending to outfile")
-else: 
-    update_outfile = False
 
 #################################
 ######### Read In Graph #########

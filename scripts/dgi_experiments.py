@@ -22,12 +22,8 @@ hyp_key = args['hyp_key']
 outfile = args['outfile']
 use_id = args['use_id'] == 'True'
 model_name = '../results/' + outfile.split('/')[-1].strip('.pkl') + '_model'
+update_outfile = args['update_outfile'] == "True"
 
-if 'update_outfile' in args:
-    update_outfile = True
-    print ("Appending to outfile")
-else: 
-    update_outfile = False
 
 #################################
 ######### Read In Graph #########
