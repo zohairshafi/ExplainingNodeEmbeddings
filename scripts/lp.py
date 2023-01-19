@@ -289,48 +289,18 @@ def link_preidction(graph, embed_og, embed_plus, epochs):
 
 ######################################################################################################################################################
 
-with open('../data/pubmed.pkl', 'rb') as file: 
-    graph = pkl.load(file)
-graph = nx.Graph(nx.to_numpy_array(graph))
+# with open('../data/pubmed.pkl', 'rb') as file: 
+#     graph = pkl.load(file)
+# graph = nx.Graph(nx.to_numpy_array(graph))
 
-pubmed_results = {}
-dim = 128
+# pubmed_results = {}
+# dim = 128
 
-
-###################
-####### DGI #######
-###################
-with open('../results/pubmed_dgi.pkl', 'rb') as file:
-    results = pkl.load(file)
-    
-lp_results = []
-for _ in tqdm(range(3)):
-    
-    runs = len(results[dim]['norm_og'])
-    random_idx = np.random.randint(runs)
-    print ("Using Run #" + str(random_idx))
-    lp_dict = link_preidction(graph = graph,
-                              embed_og = results[dim]['embed_og'][random_idx],
-                              embed_plus = results[dim]['embed_plus'][random_idx],
-                              epochs = 100)
-    lp_results.append(list(lp_dict.values()))
-    
-lp_results = np.array(lp_results)
-pubmed_results['dgi'] = lp_results
-
-dgi_norm = np.nanmean(results[dim]['norm_og'])
-dgi_norm_std = np.nanstd(results[dim]['norm_og'])
-
-dgi_xm_norm = np.nanmean(results[dim]['norm_plus'])
-dgi_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
-
-with open('../results/pubmed_lp.pkl', 'wb') as file: 
-    pkl.dump(pubmed_results, file)
 
 # ###################
-# ####### GMI #######
+# ####### DGI #######
 # ###################
-# with open('../results/pubmed_gmi.pkl', 'rb') as file:
+# with open('../results/pubmed_dgi.pkl', 'rb') as file:
 #     results = pkl.load(file)
     
 # lp_results = []
@@ -346,81 +316,111 @@ with open('../results/pubmed_lp.pkl', 'wb') as file:
 #     lp_results.append(list(lp_dict.values()))
     
 # lp_results = np.array(lp_results)
-# pubmed_results['gmi'] = lp_results
+# pubmed_results['dgi'] = lp_results
 
-# gmi_norm = np.nanmean(results[dim]['norm_og'])
-# gmi_norm_std = np.nanstd(results[dim]['norm_og'])
+# dgi_norm = np.nanmean(results[dim]['norm_og'])
+# dgi_norm_std = np.nanstd(results[dim]['norm_og'])
 
-# gmi_xm_norm = np.nanmean(results[dim]['norm_plus'])
-# gmi_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
+# dgi_xm_norm = np.nanmean(results[dim]['norm_plus'])
+# dgi_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
 
 # with open('../results/pubmed_lp.pkl', 'wb') as file: 
 #     pkl.dump(pubmed_results, file)
 
-####################
-####### SDNE #######
-####################
-with open('../results/pubmed_sdne.pkl', 'rb') as file:
-    results = pkl.load(file)
-lp_results = []
-runs = len(results[dim]['norm_og'])
-random_idx = np.random.randint(runs)
-for _ in tqdm(range(3)):
+# # ###################
+# # ####### GMI #######
+# # ###################
+# # with open('../results/pubmed_gmi.pkl', 'rb') as file:
+# #     results = pkl.load(file)
     
-    random_idx = np.random.randint(runs)
-    print ("Using Run #" + str(random_idx))
-    lp_dict = link_preidction(graph = graph,
-                              embed_og = results[dim]['embed_og'][random_idx],
-                              embed_plus = results[dim]['embed_plus'][random_idx],
-                              epochs = 100)
-    lp_results.append(list(lp_dict.values()))
+# # lp_results = []
+# # for _ in tqdm(range(3)):
     
-lp_results = np.array(lp_results)
-pubmed_results['sdne'] = lp_results
-
-sdne_norm = np.nanmean(results[dim]['norm_og'])
-sdne_norm_std = np.nanstd(results[dim]['norm_og'])
-
-sdne_xm_norm = np.nanmean(results[dim]['norm_plus'])
-sdne_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
-
-with open('../results/pubmed_lp.pkl', 'wb') as file: 
-    pkl.dump(pubmed_results, file)
-
-####################
-####### LINE #######
-####################
-with open('../results/pubmed_line.pkl', 'rb') as file:
-    results = pkl.load(file)
-lp_results = []
-runs = len(results[dim]['norm_og'])
-random_idx = np.random.randint(runs)
-for _ in tqdm(range(3)):
+# #     runs = len(results[dim]['norm_og'])
+# #     random_idx = np.random.randint(runs)
+# #     print ("Using Run #" + str(random_idx))
+# #     lp_dict = link_preidction(graph = graph,
+# #                               embed_og = results[dim]['embed_og'][random_idx],
+# #                               embed_plus = results[dim]['embed_plus'][random_idx],
+# #                               epochs = 100)
+# #     lp_results.append(list(lp_dict.values()))
     
-    random_idx = np.random.randint(runs)
-    print ("Using Run #" + str(random_idx))
-    lp_dict = link_preidction(graph = graph,
-                              embed_og = results[dim]['embed_og'][random_idx],
-                              embed_plus = results[dim]['embed_plus'][random_idx],
-                              epochs = 100)
-    lp_results.append(list(lp_dict.values()))
+# # lp_results = np.array(lp_results)
+# # pubmed_results['gmi'] = lp_results
+
+# # gmi_norm = np.nanmean(results[dim]['norm_og'])
+# # gmi_norm_std = np.nanstd(results[dim]['norm_og'])
+
+# # gmi_xm_norm = np.nanmean(results[dim]['norm_plus'])
+# # gmi_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
+
+# # with open('../results/pubmed_lp.pkl', 'wb') as file: 
+# #     pkl.dump(pubmed_results, file)
+
+# ####################
+# ####### SDNE #######
+# ####################
+# with open('../results/pubmed_sdne.pkl', 'rb') as file:
+#     results = pkl.load(file)
+# lp_results = []
+# runs = len(results[dim]['norm_og'])
+# random_idx = np.random.randint(runs)
+# for _ in tqdm(range(3)):
     
-lp_results = np.array(lp_results)
-pubmed_results['line'] = lp_results
+#     random_idx = np.random.randint(runs)
+#     print ("Using Run #" + str(random_idx))
+#     lp_dict = link_preidction(graph = graph,
+#                               embed_og = results[dim]['embed_og'][random_idx],
+#                               embed_plus = results[dim]['embed_plus'][random_idx],
+#                               epochs = 100)
+#     lp_results.append(list(lp_dict.values()))
+    
+# lp_results = np.array(lp_results)
+# pubmed_results['sdne'] = lp_results
 
-line_norm = np.nanmean(results[dim]['norm_og'])
-line_norm_std = np.nanstd(results[dim]['norm_og'])
+# sdne_norm = np.nanmean(results[dim]['norm_og'])
+# sdne_norm_std = np.nanstd(results[dim]['norm_og'])
 
-line_xm_norm = np.nanmean(results[dim]['norm_plus'])
-line_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
+# sdne_xm_norm = np.nanmean(results[dim]['norm_plus'])
+# sdne_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
 
-with open('../results/pubmed_lp.pkl', 'wb') as file: 
-    pkl.dump(pubmed_results, file)
+# with open('../results/pubmed_lp.pkl', 'wb') as file: 
+#     pkl.dump(pubmed_results, file)
+
+# ####################
+# ####### LINE #######
+# ####################
+# with open('../results/pubmed_line.pkl', 'rb') as file:
+#     results = pkl.load(file)
+# lp_results = []
+# runs = len(results[dim]['norm_og'])
+# random_idx = np.random.randint(runs)
+# for _ in tqdm(range(3)):
+    
+#     random_idx = np.random.randint(runs)
+#     print ("Using Run #" + str(random_idx))
+#     lp_dict = link_preidction(graph = graph,
+#                               embed_og = results[dim]['embed_og'][random_idx],
+#                               embed_plus = results[dim]['embed_plus'][random_idx],
+#                               epochs = 100)
+#     lp_results.append(list(lp_dict.values()))
+    
+# lp_results = np.array(lp_results)
+# pubmed_results['line'] = lp_results
+
+# line_norm = np.nanmean(results[dim]['norm_og'])
+# line_norm_std = np.nanstd(results[dim]['norm_og'])
+
+# line_xm_norm = np.nanmean(results[dim]['norm_plus'])
+# line_xm_norm_std = np.nanstd(results[dim]['norm_plus'])
+
+# with open('../results/pubmed_lp.pkl', 'wb') as file: 
+#     pkl.dump(pubmed_results, file)
 
 ###############################################################################################################################################################################
 
 with open('../data/usa_airport.pkl', 'rb') as file: 
-    graph = pkl.load(file)
+    graph = pkl.load(file)['graph']
 graph = nx.Graph(nx.to_numpy_array(graph))
 
 airport_results = {}
