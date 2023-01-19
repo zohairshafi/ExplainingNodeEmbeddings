@@ -1528,8 +1528,8 @@ class GMIEmbedding(BaseEmbedder):
         else: 
             feature_matrix = self.feature_matrix
 
-        adj_ori = nx.to_scipy_sparse_array(graph)
-        features = sp.lil_matrix(feature_matrix)
+        adj_ori = nx.to_scipy_sparse_array(self.graph)
+        features = sp.lil_matrix(self.feature_matrix)
         features, _ = process.preprocess_features(features)
 
         nb_nodes = features.shape[0]
