@@ -1545,9 +1545,13 @@ class GMIEmbedding(BaseEmbedder):
         features = torch.FloatTensor(features[np.newaxis])
         if not self.sparse:
             adj = torch.FloatTensor(adj[np.newaxis])
+            if torch.cuda.is_available():
+                adj = adj.cuda()
 
         if self.feature_matrix is not None: 
             sense_features = torch.FloatTensor(self.feature_matrix)
+            if torch.cuda.is_available():
+                sense_features = sense_features.cuda()
 
         model = GMI(ft_size, self.hid_units, self.nonlinearity)
         optimiser = torch.optim.Adam(model.parameters(), lr = self.lr, weight_decay = self.l2_coef)
@@ -1556,7 +1560,7 @@ class GMIEmbedding(BaseEmbedder):
              model.load_state_dict(torch.load(self.model_name + '.pkl'))
         
         if torch.cuda.is_available():
-            model.cuda()
+            model = model.cuda()
             features = features.cuda()
             sp_adj = sp_adj.cuda()
             
@@ -1577,6 +1581,9 @@ class GMIEmbedding(BaseEmbedder):
         for i in range(adj_ori.shape[0]):
             adj_dense[i] = adj_dense[i] * adj_row_avg[i]
         adj_ori = sp.csr_matrix(adj_dense, dtype = np.float32)
+
+        if torch.cuda.is_available():
+            adj_ori = adj_ori.cuda()
         
         start_time = time.time()
         for epoch in tqdm(range(self.nb_epochs)):
