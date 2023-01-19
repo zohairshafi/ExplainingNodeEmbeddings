@@ -1556,8 +1556,6 @@ class GMIEmbedding(BaseEmbedder):
         model = GMI(ft_size, self.hid_units, self.nonlinearity)
         optimiser = torch.optim.Adam(model.parameters(), lr = self.lr, weight_decay = self.l2_coef)
         
-        if self.use_xm:
-             model.load_state_dict(torch.load(self.model_name + '.pkl'))
         
         if torch.cuda.is_available():
             model = model.cuda()
