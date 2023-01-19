@@ -175,7 +175,8 @@ for run_idx in tqdm(range(run_count)):
                    ortho_ = hyp['dgi+xm']['ortho'], 
                    sparse_ = hyp['dgi+xm']['sparse'], 
                    batch_size = 1, 
-                   model_name = model_name)
+                   model_name = model_name, 
+                   patience = hyp['dgi+xm']['patience'])
         embed_plus = dgi_plus.get_embedding()
         embed_plus = (embed_plus - np.min(embed_plus)) / np.ptp(embed_plus)
         feature_dict_plus = find_feature_membership(input_embed = embed_plus,
