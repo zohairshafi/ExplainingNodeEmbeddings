@@ -166,8 +166,6 @@ def link_preidction(graph, embed_og, embed_plus, epochs):
 
 # fb_results = {}
 # dim = 128
-# runs = len(results[dim]['norm_og'])
-# random_idx = np.random.randint(runs)
 
 # ###################
 # ####### DGI #######
@@ -288,7 +286,7 @@ def link_preidction(graph, embed_og, embed_plus, epochs):
 
 # with open('../results/fb_lp.pkl', 'wb') as file: 
 #     pkl.dump(fb_results, file)
-    
+
 ######################################################################################################################################################
 
 with open('../data/pubmed.pkl', 'rb') as file: 
@@ -297,8 +295,7 @@ graph = nx.Graph(nx.to_numpy_array(graph))
 
 pubmed_results = {}
 dim = 128
-runs = len(results[dim]['norm_og'])
-random_idx = np.random.randint(runs)
+
 
 ###################
 ####### DGI #######
@@ -428,8 +425,7 @@ graph = nx.Graph(nx.to_numpy_array(graph))
 
 airport_results = {}
 dim = 128
-runs = len(results[dim]['norm_og'])
-random_idx = np.random.randint(runs)
+
 
 ###################
 ####### DGI #######
