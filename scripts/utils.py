@@ -1582,9 +1582,6 @@ class GMIEmbedding(BaseEmbedder):
             adj_dense[i] = adj_dense[i] * adj_row_avg[i]
         adj_ori = sp.csr_matrix(adj_dense, dtype = np.float32)
 
-        if torch.cuda.is_available():
-            adj_ori = process.sparse_mx_to_torch_sparse_tensor(adj_ori).cuda()
-        
         start_time = time.time()
         for epoch in tqdm(range(self.nb_epochs)):
             model.train()
