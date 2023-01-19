@@ -96,7 +96,9 @@ if update_outfile == False:
     results = {d : {} for d in dimensions}
 else: 
     with open(outfile, 'rb') as file: 
-        results = pkl.load(file)run_time = []
+        results = pkl.load(file)
+
+run_time = []
 
 for run_idx in tqdm(range(run_count)):
     
