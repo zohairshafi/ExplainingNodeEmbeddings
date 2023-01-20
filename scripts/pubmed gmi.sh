@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=48
 #SBATCH --job-name=pubmed_gmi
 #SBATCH --mem=64G
+#SBATCH -w=c5002
 #SBATCH --partition=netsi_largemem
 #SBATCH --time=80:00:00
 
