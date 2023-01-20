@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=48
+#SBATCH --cpus-per-task=24
 #SBATCH --job-name=squirrel_dgi
 #SBATCH --mem=64G
 #SBATCH --partition=netsi_standard

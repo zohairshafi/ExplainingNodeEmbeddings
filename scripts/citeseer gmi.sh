@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=36
+#SBATCH --cpus-per-task=24
 #SBATCH --job-name=citeseer_gmi
 #SBATCH --mem=32G
 #SBATCH --partition=netsi_standard
