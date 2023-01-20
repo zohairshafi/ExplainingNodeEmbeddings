@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=36
 #SBATCH --job-name=squirrel_dgi
 #SBATCH --mem=64G
-#SBATCH -w=c4022
+#SBATCH --nodelist=c4022
 #SBATCH --partition=netsi_standard
 #SBATCH --time=80:00:00
 

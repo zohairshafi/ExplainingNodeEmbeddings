@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=36
 #SBATCH --job-name=citeseer_gmi
 #SBATCH --mem=64G
-#SBATCH -w=c4022
+#SBATCH --nodelist=c4022
 #SBATCH --partition=netsi_largemem
 #SBATCH --time=80:00:00
 
