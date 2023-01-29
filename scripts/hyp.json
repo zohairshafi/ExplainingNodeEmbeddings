@@ -206,8 +206,8 @@
                      "lr" : 1e-3}, 
 
             "dgi+xm" : {"use_xm" : "True",
-                      "ortho" : 10, 
-                      "sparse" : 1e-3, 
+                      "ortho" : 1000, 
+                      "sparse" : 1e-4, 
                       "lr" : 9e-4,
                       "patience" : 700},
 
