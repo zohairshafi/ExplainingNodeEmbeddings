@@ -1,3 +1,5 @@
 # Explaining Node Embeddings
 
 Node embedding algorithms produce low-dimensional latent representations of nodes in a graph (e.g., by projecting the nodes into a low-dimensional Euclidean space). These embeddings are often used for downstream tasks such as node classification and link prediction. In this paper, we answer two questions. Q1: Can we explain each embedding dimension with human-understandable graph features (e.g., degree, clustering coefficient, and PageRank). We find that the answer to Q1 is yes. Q2: How can we modify existing node embedding algorithms to produce embeddings that can be easily explained by human-understandable graph features? We introduce a new framework called XM (short for eXplain eMbedding) to answer these questions. XM generates explainable node embeddings on a variety of real-world graphs, achieving comparable performance to commonly used node embeddings.
+
+Code for SDNE and LINE are adopted from https://github.com/shenweichen/GraphEmbedding
