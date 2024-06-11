@@ -673,7 +673,7 @@ def l_2nd(beta):
     def loss_2nd(y_true, y_pred):
         
         b_ = (tf.cast((y_true > 0), tf.float32) * beta)
-        x = K.square((y_true - y_pred) * b_)
+        x = K.square((tf.cast(y_true, tf.float32) - tf.cast(y_pred, tf.float32)) * b_)
         t = K.sum(x, axis = -1, )
         return K.mean(t)
 
@@ -1671,4 +1671,18 @@ class GMIEmbedding(BaseEmbedder):
     
     def get_embedding(self):
         return np.squeeze(self.embeddings.numpy())
+    
+def get_explanations(embed, sense_features):
+    
+    # Generate Node Explanations
+    Y = embed
+    sense_mat = tf.einsum('ij, ik -> ijk', Y, sense_features)
+    Y_norm = tf.linalg.diag_part(tf.matmul(Y, Y, transpose_b = True), k = 0)
+    sense_norm = tf.linalg.diag_part(tf.matmul(sense_features, sense_features, transpose_b = True), k = 0)
+    norm = Y_norm * tf.cast(sense_norm, tf.float32)
+    D = tf.transpose(tf.transpose(sense_mat) / norm)
+    D = (D - tf.reshape(tf.reduce_min(D, axis = [-1, -2]), (-1, 1, 1))) / tf.reshape(tf.reduce_max(D, axis = [-1, -2]) - tf.reduce_min(D, axis = [-1, -2]), (-1, 1, 1))
+    D = np.nan_to_num(D)
+    
+    return D
     
